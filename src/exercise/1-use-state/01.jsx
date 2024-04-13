@@ -20,14 +20,11 @@ const useStateHistory = () => {
   return {history, addHistory, deleteHistory};
 }
 const App = () => {
-  // 🦁 Remplace le name par un state
   const [name, setName] = useState('');
   const [isNameReversed, setIsNameReversed] = useState(false);
   const {history, addHistory, deleteHistory} = useStateHistory();
 
   const handleChange = (event) => {
-    // 🦁 Update le state avec la nouvelle valeur
-    // 💡 `event.target.value`
     setName(event.target.value);
     addHistory(event.target.value);
   };
