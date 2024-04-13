@@ -1,13 +1,35 @@
 // 🦁 add useState import
-// import { useState } from "react";
+import { useState } from "react";
 
+const useStateHistory = () => {
+  const [history, setHistory] = useState([]);
+
+  const addHistory = (value = '-') => {
+    setHistory((prev) => [...prev, value]);
+  }
+
+  const deleteHistory = (index) => {
+    if (typeof index !== 'number') return;
+
+    setHistory((current) => {
+      current.splice(index, 1);
+      return [...current];
+    })
+  }
+
+  return {history, addHistory, deleteHistory};
+}
 const App = () => {
   // 🦁 Remplace le name par un state
-  let name = '';
+  const [name, setName] = useState('');
+  const [isNameReversed, setIsNameReversed] = useState(false);
+  const {history, addHistory, deleteHistory} = useStateHistory();
 
   const handleChange = (event) => {
     // 🦁 Update le state avec la nouvelle valeur
     // 💡 `event.target.value`
+    setName(event.target.value);
+    addHistory(event.target.value);
   };
 
   return (
@@ -15,12 +37,48 @@ const App = () => {
       <input
         type="text"
         placeholder="Name"
-        // 🦁 Ajoute la valeur
-        // 🦁 Ajoute le onChange pour update le state quand la valeur change
+        value={name}
+        onChange={handleChange}
       />
-      <p>{name ? `Hello ${name}` : 'Write your name'}</p>
+      <input type={'checkbox'}
+             checked={isNameReversed}
+             onChange={(event) => setIsNameReversed(event.target.checked)}/>
+      <Name name={name} isNameReversed={isNameReversed} />
+      <History nameHistory={history} deleteHistory={deleteHistory}/>
     </div>
   );
 };
+
+const Name = ({ name, isNameReversed }) => {
+  if (!name) {
+    return <p>Write your name</p>;
+  }
+
+  const computedName = isNameReversed
+    ? name.split('').reverse().join('')
+    : name;
+
+  return <p>Hello {computedName}</p>;
+};
+
+const History = ({nameHistory, deleteHistory}) => {
+
+  return (
+    <ul>
+      {nameHistory.map((item, index) => {
+        console.log(item, 'item')
+        return (
+          <li
+            key={index}
+            onClick={() => {
+              deleteHistory(index)
+            }}>
+            {item}
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
 
 export default App;
