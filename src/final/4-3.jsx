@@ -90,32 +90,39 @@ const CurrentModeInfo = () => {
   );
 };
 
-const App = () => {
+const App = ({children}) => {
   const [count, increment] = useReducer((curr) => curr + 1, 0);
   return (
     <div>
       <p>Not in dark mode</p>
       <button onClick={increment}>{count}</button>
       <ThemeProvider>
-        <ThemedLayout>
-          <ToggleMode />
-
-          <h1>Articles</h1>
-          <h3>What is useContext ?</h3>
-          <p>
-            useContext is used to pass data through the component tree without
-            having to pass props down manually at every level.
-          </p>
-          <hr />
-          <CurrentModeInfo />
-          <div style={{ marginTop: 32 }}>
-            <ForceLightMode />
-            <ForceDarkMode />
-          </div>
-        </ThemedLayout>
+        {children}
       </ThemeProvider>
     </div>
   );
 };
 
-export default App;
+const AppWrapper = () => {
+  return (
+  <App>
+    <ThemedLayout>
+      <ToggleMode />
+
+      <h1>Articles</h1>
+      <h3>What is useContext ?</h3>
+      <p>
+        useContext is used to pass data through the component tree without
+        having to pass props down manually at every level.
+      </p>
+      <hr />
+      <CurrentModeInfo />
+      <div style={{ marginTop: 32 }}>
+        <ForceLightMode />
+        <ForceDarkMode />
+      </div>
+    </ThemedLayout>
+  </App>
+  )
+}
+export default AppWrapper;
