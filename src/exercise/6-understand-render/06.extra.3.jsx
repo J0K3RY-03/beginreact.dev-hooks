@@ -4,7 +4,14 @@ import { useOnRenderStyle } from '../../toolbox/hooks/useOnRenderStyle.jsx';
 const Header = ({ count }) => {
   const ref = useOnRenderStyle();
 
-  const HeaderInput = () => {
+  return (
+    <div ref={ref}>
+      <h2>Header</h2>
+      <HeaderInput count={count}/>
+    </div>
+  );
+};
+  const HeaderInput = ({count}) => {
     return (
       <div>
         <p>A counter in the header ? It's possible : {count}</p>
@@ -12,14 +19,6 @@ const Header = ({ count }) => {
       </div>
     );
   };
-
-  return (
-    <div ref={ref}>
-      <h2>Header</h2>
-      <HeaderInput />
-    </div>
-  );
-};
 
 const App = () => {
   const [count, increment] = useReducer((v) => v + 1, 0);

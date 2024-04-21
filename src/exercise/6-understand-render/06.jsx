@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import { useOnRenderStyle } from '../../toolbox/hooks/useOnRenderStyle.jsx';
 
 const Header = () => {
@@ -21,14 +21,19 @@ const Footer = () => {
   );
 };
 
-const App = () => {
-  // 🦁 Crée un composant "Counter" et déplace la logique et le bouton dedans.
+const Counter = () => {
   const [count, increment] = useReducer((v) => v + 1, 0);
+  return (
+    <button onClick={() => increment()}>{count}</button>
+  )
+}
+
+const App = () => {
 
   return (
     <div>
       <Header />
-      <button onClick={() => increment()}>{count}</button>
+      <Counter />
       <Footer />
     </div>
   );
